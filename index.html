@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Rental KOMIT Manado - Sewa Mobil Manado</title>
+<style>
+  /* Reset & base */
+  * {
+    box-sizing: border-box;
+    margin: 0; padding: 0;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    background: #f0f0f0;
+    overflow-x: hidden;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  img {
+    max-width: 100%;
+    display: block;
+    border-radius: 8px;
+  }
+  button {
+    cursor: pointer;
+  }
+  /* Navbar */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 900px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    transition: background-color 0.4s ease;
+    background-color: transparent;
+    user-select: none;
+    border-radius: 0 0 20px 20px;
+    box-sizing: border-box;
+  }
+  nav.scrolled {
+    background-color: rgba(59, 29, 122, 0.9);
+    box-shadow: 0 2px 10px rgb(0 0 0 / 0.3);
+  }
+  nav .logo-icon {
+    font-size: 1.8rem;
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+  nav .brand-name {
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: #fff;
+    letter-spacing: 2px;
+    white-space: nowrap;
+  }
+
+  /* Containers & layout */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 20px 40px; /* add top padding for fixed navbar */
+    box-sizing: border-box;
+  }
+  section {
+    padding: 35px 20px 40px;
+    border-radius: 12px;
+    margin: 25px 0;
+  }
+  h2 {
+    font-weight: 700;
+    margin-bottom: 18px;
+    font-size: 2rem;
+    text-align:center;
+  }
+  p {
+    font-weight: 400;
+    line-height: 1.5;
+    font-size: 1.1rem;
+  }
+  /* Gradient backgrounds for sections */
+  #hero {
+    background: linear-gradient(135deg, #899fd4, #a5e2ff);
+  }
+  #why-us {
+    background: linear-gradient(135deg, #ff9a62, #ffc982);
+    color: #3a2c21;
+  }
+  #mobil-list {
+    background: linear-gradient(135deg, #5ee7df, #b490ca);
+  }
+  #testimoni {
+    background: linear-gradient(135deg, #f7da63, #f78f43);
+    color: #3a2c21;
+  }
+  #galeri {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+  }
+  #kontak {
+    background: linear-gradient(135deg, #ffe259, #ffa751);
+    color: #3a2c21;
+    text-align:center;
+  }
+  /* Hero Section */
+  #hero .slider {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    height: 260px;
+  }
+  #hero .slider img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: opacity 1s ease-in-out;
+    position: absolute;
+    top: 0; left: 0;
+  }
+  #hero .slider img:not(.active) {
+    opacity: 0;
+    pointer-events: none;
+  }
+  #hero .cta-buttons {
+    display:flex;
+    gap: 18px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  #hero .cta-buttons button {
+    background-color: #ff715b;
+    border: none;
+    color: white;
+    padding: 14px 25px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    border-radius: 50px;
+    flex: 1;
+    max-width: 160px;
+    transition: background-color 0.3s ease;
+  }
+  #hero .cta-buttons button:hover {
+    background-color: #e05a47;
+  }
+
+  /* Why Us Section */
+  #why-us .reasons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  #why-us .reason {
+    width: 45%;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  #why-us .reason svg {
+    width: 42px;
+    height: 42px;
+    fill: #2c1f09;
+    flex-shrink: 0;
+  }
+  #why-us .reason div {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #3a2c21;
+  }
+
+  /* Mobil List Grid */
+  #mobil-list .mobil-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+  #mobil-list .mobil-card {
+    background: rgba(255 255 255 / 0.25);
+    backdrop-filter: saturate(180%) blur(10px);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+    box-shadow: 0 3px 8px rgb(0 0 0 / 0.15);
+  }
+  #mobil-list .mobil-card img {
+    border-radius: 12px;
+    height: 130px;
+    object-fit: cover;
+  }
+  #mobil-list .mobil-name {
+    margin: 15px 0 11px;
+    font-weight: 800;
+    font-size: 1.2rem;
+  }
+  #mobil-list .btn-pesan {
+    display: inline-block;
+    background-color: #3b1d7a;
+    color: #fff;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 24px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 5px rgb(59 29 122 / 0.7);
+  }
+  #mobil-list .btn-pesan:hover {
+    background-color: #260d5b;
+  }
+
+  /* Testimoni Carousel */
+  #testimoni .carousel {
+    position: relative;
+    overflow: hidden;
+    height: 180px;
+  }
+  #testimoni .carousel-inner {
+    display: flex;
+    transition: transform 0.6s ease-in-out;
+    height: 180px;
+    align-items:center;
+  }
+  #testimoni .testimonial {
+    min-width: 100%;
+    padding: 0 25px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  #testimoni .testimonial .name {
+    font-weight: 800;
+    font-size: 1.4rem;
+    margin-bottom: 6px;
+  }
+  #testimoni .stars {
+    color: #ffbc00;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
+  #testimoni .testimonial p {
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+
+  /* Testimoni Dots */
+  #testimoni .dots {
+    text-align: center;
+    margin-top: 14px;
+  }
+  #testimoni .dot {
+    display: inline-block;
+    margin: 0 7px;
+    width: 14px;
+    height: 14px;
+    background: #3a2c21;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+  }
+  #testimoni .dot.active {
+    background: #3a2c21;
+    opacity: 1;
+  }
+
+  /* Galeri Slider */
+  #galeri .gallery-slider {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    border-radius: 15px;
+    height: 200px;
+  }
+  #galeri .gallery-wrapper {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    height: 200px;
+  }
+  #galeri .gallery-item {
+    min-width: 140px;
+    margin-right: 14px;
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+  }
+  #galeri .gallery-item img {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+  }
+  /* Gallery nav buttons */
+  #galeri .gallery-nav {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    pointer-events:none;
+  }
+  #galeri .gallery-nav button {
+    pointer-events: all;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(59, 29, 122,0.7);
+    border: none;
+    color: white;
+    font-size: 26px;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    line-height: 38px;
+    cursor: pointer;
+    user-select:none;
+    transition: background-color 0.3s ease;
+  }
+  #galeri .gallery-nav button:hover {
+    background-color: #3b1d7a;
+  }
+  #galeri .gallery-nav .prev {
+    left: 5px;
+  }
+  #galeri .gallery-nav .next {
+    right: 5px;
+  }
+
+  /* Sosial Media & Google Maps */
+  #kontak {
+    background: linear-gradient(135deg, #ffe259, #ffa751);
+    color: #3a2c21;
+    text-align:center;
+  }
+  #kontak .sosmed {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 30px;
+  }
+  #kontak .sosmed a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgba(59,29,122,0.85);
+    color: white;
+    font-size: 26px;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 3px 8px rgba(59,29,122,0.7);
+  }
+  #kontak .sosmed a:hover {
+    background-color: #3b1d7a;
+  }
+  /* SVG icons */
+  #kontak svg {
+    width: 26px;
+    height: 26px;
+    fill: currentColor;
+  }
+  /* Google Maps Embed */
+  #kontak iframe {
+    width: 100%;
+    height: 260px;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    user-select:none;
+  }
+
+  /* Responsive tweaks */
+  @media (max-width: 900px) {
+    .container {
+      max-width: 100vw;
+      padding: 80px 16px 40px;
+    }
+  }
+  @media (max-width: 768px) {
+    h2 {
+      font-size: 1.8rem;
+    }
+    #why-us .reason {
+      width: 48%;
+    }
+    #mobil-list .mobil-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    #mobil-list .mobil-card img {
+      height: 110px;
+    }
+    #hero .slider {
+      height: 220px;
+    }
+    #hero .slider img {
+      height: 220px;
+    }
+    #hero .cta-buttons button {
+      max-width: none;
+    }
+    #kontak iframe {
+      height: 220px;
+    }
+  }
+  @media (max-width: 480px) {
+    h2 {
+      font-size: 1.5rem;
+    }
+    #why-us .reason {
+      width: 100%;
+      justify-content: flex-start;
+    }
+    #mobil-list .mobil-grid {
+      grid-template-columns: 1fr;
+    }
+    #mobil-list .mobil-card img {
+      height: 130px;
+    }
+    #testimoni .testimonial p {
+      font-size: 1rem;
+    }
+    #hero .slider {
+      height: 180px;
+    }
+    #hero .slider img {
+      height: 180px;
+    }
+    #kontak iframe {
+      height: 180px;
+    }
+    #kontak .sosmed {
+      gap: 20px;
+    }
+    #kontak .sosmed a {
+      width: 44px;
+      height: 44px;
+      font-size: 22px;
+    }
+    #kontak svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+  .rental-section {
+  background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+  max-width: 600px;
+  width: 100%;
+  border-radius: 24px;
+  padding: 48px 36px;
+  box-shadow: 0 12px 40px rgba(97, 142, 209, 0.3);
+  color: #1e2d47;
+  box-sizing: border-box;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+
+/* subtle decorative shapes in background */
+.rental-section::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 180px;
+  height: 180px;
+  background: #9ecffd;
+  opacity: 0.3;
+  border-radius: 50%;
+  filter: blur(50px);
+  pointer-events: none;
+}
+
+.rental-section h1 {
+  font-weight: 700;
+  font-size: 2.75rem;
+  margin-bottom: 32px;
+  color: #0d1e40;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.rental-section p {
+  font-weight: 400;
+  font-size: 1.15rem;
+  line-height: 1.75;
+  margin-bottom: 22px;
+  letter-spacing: 0.015em;
+}
+
+.rental-section p.strong {
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: #003d99;
+  margin-bottom: 28px;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 1px rgba(0, 61, 153, 0.2);
+}
+
+/* accent highlight on important words */
+.highlight {
+  color: #0057e7;
+  font-weight: 700;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 400px) {
+  .rental-section {
+    padding: 32px 24px;
+    border-radius: 20px;
+  }
+  .rental-section h1 {
+    font-size: 2.1rem;
+    margin-bottom: 24px;
+  }
+  .rental-section p {
+    font-size: 1rem;
+    margin-bottom: 18px;
+  }
+  .rental-section p.strong {
+    font-size: 1.15rem;
+    margin-bottom: 22px;
+  }
+}
+</style>
+</head>
+<body>
+  <nav role="navigation" aria-label="Main navigation">
+  <span class="logo-icon" aria-label="car icon" role="img"> <img src="assets/images/rental komit manado (350 x 50 piksel).png" alt="logo TK"></span>
+  <span class="brand-name"></span>
+</nav>
+
+<div class="container">
+
+  <!-- Hero Section -->
+  <section id="hero" aria-label="Hero slider with car images and call to actions">
+    <div class="slider" aria-live="polite" aria-atomic="true" aria-roledescription="carousel">
+      <img src="assets/images/danau linow.jpeg" alt="Mobil sedan putih" class="active" />
+      <img src="assets/images/patung yesus memberkati.jpeg" alt="Mobil sport merah" />
+      <img src="assets/images/rumah pelangi manado 1.jpeg" alt="Mobil keluarga silver" />
+    </div>
+    <div class="cta-buttons">
+      <button id="btn-sewa" aria-label="Sewa Sekarang">Sewa Sekarang</button>
+      <button id="btn-lihat" aria-label="Lihat Mobil">Lihat Mobil</button>
+    </div>
+  </section>
+  
+<section class="rental-section" role="region" aria-labelledby="rental-title">
+  <h1 id="rental-title">Rental <span class="highlight">KOMIT Manado</span></h1>
+  <p class="strong">Lagi cari <span class="highlight">mobil sewaan</span> yang nyaman dan gampang prosesnya?</p>
+  <p>Tenang, kamu udah di tempat yang tepat!</p>
+  <p>Di <span class="highlight">Team KOMIT Rent Car</span>, kami siap bantu perjalanan kamu jadi lebih praktis dan menyenangkan.</p>
+  <p>Mulai dari jalan-jalan keliling Manado, urusan kerja, sampai liburan bareng keluarga.</p>
+  <p>Kami punya mobil yang pas buat kamu.</p>
+  <p>Armada bersih, pelayanan ramah, dan harga yang masuk akal.</p>
+  <p>Pokoknya, tinggal pilih mobilnya, kami yang urus sisanya!</p>
+</section>
+
+<!-- Why Us Section -->
+<section id="why-us" aria-label="Mengapa Memilih Kami">
+<h2>Mengapa Memilih Kami</h2>
+<div class="reasons">
+  <div class="reason">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zm0 20c-4.962 0-9-4.038-9-9s4.038-9 9-9 9 4.038 9 9-4.038 9-9 9z"/><path d="M15 11h-6v2h6z"/></svg>
+    <div>Harga Transparan</div>
+  </div>
+  <div class="reason">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 8h-2V7a3 3 0 00-6 0v1H7v2h10V8zM10 7a1 1 0 012 0v1h-2V7z"/><path d="M19 13H5v5h14v-5zM7 16v-1h2v1H7z"/></svg>
+    <div>Armada Terawat</div>
+  </div>
+  <div class="reason">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v2H3V6zm0 4h18v2H3v-2zm0 4h12v2H3v-2z"/></svg>
+    <div>Proses Pemesanan Cepat</div>
+  </div>
+  <div class="reason">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 00-7.07 17.07l-1.43 3.4 3.4-1.43A10 10 0 1012 2zm.5 5h-1v6l5.25 3.15.75-1.23-4.75-2.83V7z"/></svg>
+    <div>Layanan 24/7</div>
+  </div>
+</div>
+</section>
+
+<!-- Daftar Mobil -->
+<section id="mobil-list" aria-label="Daftar Mobil tersedia">
+  <h2>Daftar Mobil</h2>
+  <div class="mobil-grid">
+    <div class="mobil-card">
+      <img src="assets/images/avanza.jpeg" alt="Toyota Avanza"/>
+      <div class="mobil-name">Toyota Avanza</div>
+      <a href="https://wa.me/6285190300735?text=Saya%20ingin%20memesan%20Toyota%20Avanza" target="_blank" rel="noopener" class="btn-pesan" aria-label="Pesan Toyota Avanza via WhatsApp">Pesan</a>
+    </div>
+    <div class="mobil-card">
+      <img src="assets/images/innova reborn.jpeg" alt="Innova Reborn"/>
+      <div class="mobil-name">Innova Reborn</div>
+      <a href="https://wa.me/6285190300735?text=Saya%20ingin%20memesan%20Honda%20Innova Reborn" target="_blank" rel="noopener" class="btn-pesan" aria-label="Pesan Innova Reborn via WhatsApp">Pesan</a>
+    </div>
+    <div class="mobil-card">
+      <img src="assets/images/innova zenix.jpeg" alt="Innova Zenix"/>
+      <div class="mobil-name">Innova Zenix</div>
+      <a href="https://wa.me/6285190300735?text=Saya%20ingin%20memesan%20Daihatsu%20Innova Zenix" target="_blank" rel="noopener" class="btn-pesan" aria-label="Pesan Innova Zenix via WhatsApp">Pesan</a>
+    </div>
+    <div class="mobil-card">
+      <img src="assets/images/alphard.jpeg" alt="Alphard"/>
+      <div class="mobil-name">Alphard</div>
+      <a href="https://wa.me/6285190300735?text=Saya%20ingin%20memesan%20Suzuki%20Alphard" target="_blank" rel="noopener" class="btn-pesan" aria-label="Pesan Alphard via WhatsApp">Pesan</a>
+    </div>
+    <div class="mobil-card">
+      <img src="assets/images/hiace premio.jpeg" alt="Hiace Premio"/>
+      <div class="mobil-name">Hiace Premio</div>
+      <a href="https://wa.me/6285190300735?text=Saya%20ingin%20memesan%20Mitsubishi%20Hiace Premio" target="_blank" rel="noopener" class="btn-pesan" aria-label="Pesan Hiace Premio via WhatsApp">Pesan</a>
+    </div>
+    <div class="mobil-card">
+      <img src="assets/images/hiace commuter.jpeg" alt="Hiace Commuter"/>
+      <div class="mobil-name">Hiace Commuter</div>
+      <a href="https://wa.me/6285190300735?text=Saya%20ingin%20memesan%20Toyota%20Hiace Commuter" target="_blank" rel="noopener" class="btn-pesan" aria-label="Pesan Hiace Commuter via WhatsApp">Pesan</a>
+    </div>
+  </div>
+</section>
+
+<!-- Testimoni Pelanggan -->
+<section id="testimoni" aria-label="Testimoni Pelanggan">
+  <h2>Testimoni Pelanggan</h2>
+  <div class="carousel" aria-live="polite" aria-atomic="true" aria-roledescription="carousel">
+    <div class="carousel-inner">
+      <div class="testimonial" role="group" aria-roledescription="slide" aria-label="Testimoni dari Budi, rating 5 dari 5">
+        <div class="name">Budi</div>
+        <div class="stars" aria-label="Rating 5 dari 5">★★★★★</div>
+        <p>"Pelayanan cepat dan mobilnya sangat terawat. Sangat recommended!"</p>
+      </div>
+      <div class="testimonial" role="group" aria-roledescription="slide" aria-label="Testimoni dari Ani, rating 4 dari 5">
+        <div class="name">Ani</div>
+        <div class="stars" aria-label="Rating 4 dari 5">★★★★☆</div>
+        <p>"Harga transparan dan proses sewa sangat mudah."</p>
+      </div>
+      <div class="testimonial" role="group" aria-roledescription="slide" aria-label="Testimoni dari Joko, rating 5 dari 5">
+        <div class="name">Joko</div>
+        <div class="stars" aria-label="Rating 5 dari 5">★★★★★</div>
+        <p>"Layanan 24/7 sangat membantu saat butuh mobil mendadak."</p>
+      </div>
+    </div>
+    <div class="dots" role="tablist" aria-label="Pilih testimoni">
+      <span class="dot active" role="tab" aria-selected="true" tabindex="0"></span>
+      <span class="dot" role="tab" aria-selected="false" tabindex="-1"></span>
+      <span class="dot" role="tab" aria-selected="false" tabindex="-1"></span>
+    </div>
+  </div>
+</section>
+
+<!-- Galeri -->
+<section id="galeri" aria-label="Galeri Foto Mobil">
+  <h2>Galeri</h2>
+  <div class="gallery-slider" aria-roledescription="carousel" aria-label="Slider galeri foto mobil">
+    <div class="gallery-wrapper">
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=200&q=80" alt="Mobil putih di jalan"/></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=200&q=80" alt="Mobil sport merah"/></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1606813909133-69bcf3c1e9c6?auto=format&fit=crop&w=200&q=80" alt="Mobil keluarga silver"/></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1617045640663-d1dddaea710b?auto=format&fit=crop&w=200&q=80" alt="Toyota Avanza"/></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=200&q=80" alt="Honda Brio"/></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1571607380439-0e27f651ddd7?auto=format&fit=crop&w=200&q=80" alt="Daihatsu Xenia"/></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1524578271613-fa09e72d1dab?auto=format&fit=crop&w=200&q=80" alt="Suzuki Ertiga"/></div>
+    </div>
+    <div class="gallery-nav">
+      <button class="prev" aria-label="Foto sebelumnya">&#10094;</button>
+      <button class="next" aria-label="Foto selanjutnya">&#10095;</button>
+    </div>
+  </div>
+</section>
+
+<!-- Kontak / Sosmed and Google Maps -->
+<section id="kontak" aria-label="Sosial Media dan lokasi Rental KOMIT Manado">
+  <h2>Sosial Media & Lokasi</h2>
+  <div class="sosmed">
+    <a href="https://www.facebook.com/share/19bYUfkxPd/?mibextid=wwXIfr" target="_blank" rel="noopener" aria-label="Facebook Rental KOMIT Manado" title="Facebook">
+      <svg viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false"><path d="M22.675 0h-21.35C.593 0 0 .593 0 1.326v21.348C0 23.408.593 24 1.326 24H12v-9.294H9.293V11.1H12V8.41c0-2.677 1.633-4.137 4.02-4.137 1.149 0 2.133.086 2.422.124v2.816h-1.665c-1.306 0-1.558.62-1.558 1.532v2.005h3.112l-.405 3.606H15.22V24h7.455c.733 0 1.326-.592 1.326-1.326V1.326c0-.733-.593-1.326-1.326-1.326z"/></svg>
+    </a>
+    <a href="https://www.instagram.com/sewa_mobil_manado_sulut?igsh=a2toa2Fpb3k1Mmp0&utm_source=qr" target="_blank" rel="noopener" aria-label="Instagram Rental KOMIT Manado" title="Instagram">
+      <svg viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false"><path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm4.25 3.375a4.75 4.75 0 100 9.5 4.75 4.75 0 000-9.5zM18.354 7.346a1.24 1.24 0 100 2.479 1.24 1.24 0 000-2.479zM12 8.25a3.75 3.75 0 110 7.5 3.75 3.75 0 010-7.5z"/></svg>
+    </a>
+    <a href="https://wa.link/qpog4u" target="_blank" rel="noopener" aria-label="WhatsApp Rental KOMIT Manado" title="WhatsApp">
+      <svg viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false"><path d="M12 0a12 12 0 00-3.82 23.35l-1.65 4.9 5.12-1.6a12 12 0 108.25-26.65zM7.09 16.53l-.34-2.19c-.02-.11.04-.22.14-.27l1.71-1.09a.17.17 0 01.23.04l1.85 3.14c.04.06 0 .15-.07.18l-1.34.69c-1.06.54-1.96.04-2.18-.40zm8.23-3.88a.75.75 0 00-.98-.11c-.26.17-1.02.63-1.19.72-.16.1-.28.17-.38.25-.14.17-.13.31-.05.45.03.06.18.17.38.34.2.18 1.3.92 1.53 1.1.23.18.37.28.54.06.18-.22.68-.8.86-1.14a.75.75 0 00-.11-.96z"/></svg>
+    </a>
+    <a href="https://www.google.com/maps/place/Manado,+North+Sulawesi,+Indonesia" target="_blank" rel="noopener" aria-label="Google Maps Lokasi Rental KOMIT Manado" title="Google Maps">
+      <svg viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false"><path d="M12 2C8.14 2 5 5.14 5 9.5c0 5.63 6.98 12.84 6.98 12.85.12.13.28.13.4 0 0-.01 6.98-7.22 6.98-12.84C19 5.14 15.86 2 12 2zm0 13.5a4 4 0 110-8 4 4 0 010 8z"/></svg>
+    </a>
+  </div>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d271.83600236084317!2d124.96092151679495!3d1.5306488512245324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3287a7006be1f3d9%3A0x81efcba7c7536bba!2sTeam%20Komit%20Rent%20Car!5e0!3m2!1sid!2sid!4v1746696491713!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</section>
+
+</div>
+
+<script>
+  // Hero slider
+  const heroImgs = document.querySelectorAll('#hero .slider img');
+  let heroIndex = 0;
+  function showHeroSlide(index) {
+    heroImgs.forEach((img,i) => {
+      img.classList.toggle('active', i === index);
+    });
+  }
+  function heroSlideNext() {
+    heroIndex = (heroIndex + 1) % heroImgs.length;
+    showHeroSlide(heroIndex);
+  }
+  setInterval(heroSlideNext, 4000);
+  
+  // Hero CTA button actions
+  document.getElementById('btn-sewa').addEventListener('click', () => {
+    // Scroll to Daftar Mobil
+    document.getElementById('mobil-list').scrollIntoView({behavior: 'smooth'});
+  });
+  document.getElementById('btn-lihat').addEventListener('click', () => {
+    // Scroll to Daftar Mobil
+    document.getElementById('mobil-list').scrollIntoView({behavior: 'smooth'});
+  });
+  
+  // Testimoni carousel
+  const testiCarousel = document.querySelector('#testimoni .carousel-inner');
+  const dots = document.querySelectorAll('#testimoni .dot');
+  let testiIndex = 0;
+  
+  function showTestiSlide(index) {
+    testiIndex = index;
+    testiCarousel.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach((dot,i) => {
+      dot.classList.toggle('active', i === index);
+      dot.setAttribute('aria-selected', i === index ? 'true' : 'false');
+      dot.setAttribute('tabindex', i === index ? '0' : '-1');
+    });
+  }
+  dots.forEach((dot,i) => {
+    dot.addEventListener('click', () => showTestiSlide(i));
+    dot.addEventListener('keydown', e => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        showTestiSlide(i);
+      }
+    });
+  });
+  function testiSlideNext() {
+    testiIndex = (testiIndex + 1) % dots.length;
+    showTestiSlide(testiIndex);
+  }
+  setInterval(testiSlideNext, 5000);
+  
+  // Gallery slider
+  const galleryWrapper = document.querySelector('#galeri .gallery-wrapper');
+  const galleryItems = document.querySelectorAll('#galeri .gallery-item');
+  const prevBtn = document.querySelector('#galeri .prev');
+  const nextBtn = document.querySelector('#galeri .next');
+  let galleryPos = 0;
+  const maxGalleryPos = galleryItems.length - 1;
+  
+  function updateGalleryPosition() {
+    let offset = -galleryPos * 154; // width + margin approx large for updated size
+    galleryWrapper.style.transform = `translateX(${offset}px)`;
+  }
+  prevBtn.addEventListener('click', () => {
+    galleryPos = Math.max(0, galleryPos - 1);
+    updateGalleryPosition();
+  });
+  nextBtn.addEventListener('click', () => {
+    galleryPos = Math.min(maxGalleryPos - 3, galleryPos + 1); // show approx 4 items wide on desktop
+    updateGalleryPosition();
+  });
+  
+  // Navbar transparent toggling on scroll
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if(window.scrollY > 20) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  });
+  </script>
+</body>
+</html>
+</content>
+</create_file>
